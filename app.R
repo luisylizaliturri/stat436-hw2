@@ -16,7 +16,7 @@ utils::globalVariables(c(
 
 #### Load & clean data #####
 power <- read_csv(
-    "global_power_plant_database.csv",
+    "https://raw.githubusercontent.com/luisylizaliturri/stat436-hw2-data/136c0c8d573f893dbd947d316d600d4975d22487/global_power_plant_database.csv",
     col_types = cols(.default = col_character()),
     show_col_types = FALSE
 )
