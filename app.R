@@ -107,7 +107,13 @@ ui <- fluidPage(
                 column(4, h4(textOutput("n_countries")))
             ),
             leafletOutput("map", height = 500),
-            DTOutput("table")
+            DTOutput("table"),
+            p(
+                "Data source: ",
+                tags$a("Global Power Plant Database (Kaggle)",
+                       href = "https://www.kaggle.com/datasets/dianaddx/global-power-plant-database?resource=download",
+                       target = "_blank")
+            )
         )
     )
 )
@@ -128,7 +134,7 @@ server <- function(input, output, session) {
         updateSliderInput(session, "capacity", min = 0, max = max_cap, value = c(0, max_cap))
 
         years <- power$commissioning_year[!is.na(power$commissioning_year)]
-        updateSliderInput(session, "year", min = min(years), max = max(years), value = c(max(min(years), 1950), max(years)))
+        updateSliderInput(session, "year", min = min(years), max = max(years), value = c(min(years), max(years)))
     })
 
     #Dynamic query 1: sidebar filters
