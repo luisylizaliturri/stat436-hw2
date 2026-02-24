@@ -35,22 +35,22 @@ power <- power |>
 
 #global color palette for bar chart and map
 fuel_colors <- c(
-  "Coal"           = "darkslategray",
-  "Gas"            = "seagreen",
-  "Hydro"          = "cadetblue",
+  "Coal"           = "black",
+  "Gas"            = "darkorange",
+  "Hydro"          = "dodgerblue",
   "Nuclear"        = "red",
-  "Oil"            = "orange",
+  "Oil"            = "saddlebrown",
   "Solar"          = "gold",
-  "Wind"           = "purple",
-  "Biomass"        = "sienna",
-  "Waste"          = "green",
-  "Geothermal"     = "pink",
-  "Cogeneration"   = "aquamarine",
-  "Petcoke"        = "deeppink",
-  "Wave and Tidal" = "slateblue",
-  "Storage"        = "lightgreen",
-  "Other"          = "deepskyblue",
-  "Unknown"        = "gray"
+  "Wind"           = "mediumorchid",
+  "Biomass"        = "darkgreen",
+  "Waste"          = "limegreen",
+  "Geothermal"     = "deeppink",
+  "Cogeneration"   = "navy",
+  "Petcoke"        = "darkred",
+  "Wave and Tidal" = "lightseagreen",
+  "Storage"        = "forestgreen",
+  "Other"          = "gray70",
+  "Unknown"        = "white"
 )
 
 ##### Helper function for bar chart of capacity by fuel ######
@@ -84,6 +84,7 @@ ui <- fluidPage(
     p("Filter on the left, then click bars or map points to dive deeper."),
     sidebarLayout(
         sidebarPanel(
+            width = 5,
             selectizeInput("country", "Country", choices = NULL, multiple = TRUE),
             selectizeInput("fuel", "Primary Fuel", choices = NULL, multiple = TRUE),
             sliderInput("capacity", "Capacity (MW)", min = 0, max = 1000, value = c(0, 1000)),
@@ -91,7 +92,7 @@ ui <- fluidPage(
             checkboxInput("generation_only", "Only plants with generation data", FALSE),
             actionButton("clear", "Clear chart/map selection"),
             hr(),
-            plotlyOutput("fuel_plot", height = 280),
+            plotlyOutput("fuel_plot", height = 380),
             hr(),
             strong("Dynamic queries:"),
             tags$ul(
@@ -101,12 +102,13 @@ ui <- fluidPage(
             )
         ),
         mainPanel(
+            width= 7,
             fluidRow(
                 column(4, h4(textOutput("n_plants"))),
                 column(4, h4(textOutput("total_capacity"))),
                 column(4, h4(textOutput("n_countries")))
             ),
-            leafletOutput("map", height = 500),
+            leafletOutput("map", height = 600),
             DTOutput("table"),
             p(
                 "Data source: ",
@@ -115,6 +117,10 @@ ui <- fluidPage(
                        target = "_blank")
             )
         )
+    ),
+    theme = bs_theme(
+      primary = "dodgerblue",   
+      secondary = "skyblue",
     )
 )
 
@@ -223,7 +229,7 @@ server <- function(input, output, session) {
                     fuel_colors[primary_fuel],
                     fuel_colors[["Other"]]
                 ),
-                fillOpacity = 0.7,
+                fillOpacity = 0.5,
                 stroke = FALSE,
                 layerId = ~gppd_idnr,
                 popup = ~ paste0(
