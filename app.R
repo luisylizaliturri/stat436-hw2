@@ -117,10 +117,6 @@ ui <- fluidPage(
                        target = "_blank")
             )
         )
-    ),
-    theme = bs_theme(
-      primary = "dodgerblue",   
-      secondary = "skyblue",
     )
 )
 
